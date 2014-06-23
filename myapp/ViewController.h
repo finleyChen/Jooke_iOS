@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class LogInViewController;
+@class SignUpViewController;
+
 @interface ViewController : UIViewController
+
+-(IBAction)onLogInclicked:(id)sender;
+-(IBAction)onSignUpclicked:(id)sender;
 
 @end

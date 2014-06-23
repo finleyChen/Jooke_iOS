@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "-[UpcomingViewController tableView:cellForRowAtIndexPath:]:UpcomingViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "songObject.artist">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ArtistSongsTableViewController viewDidLoad]:ArtistSongsTableViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.playlist">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[PlaylistViewController viewDidLoad]:PlaylistViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.artistsDictionary">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "__32-[LogInViewController postJson:]_block_invoke:LogInViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[PlaylistViewController numberOfSectionsInTableView:]:PlaylistViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.artistsDictionary.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ArtistSongsTableViewController tableView:didSelectRowAtIndexPath:]:ArtistSongsTableViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.playlist">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
