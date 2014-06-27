@@ -43,6 +43,10 @@
             artistForName = [NSMutableArray array];
         [artistForName addObject:song];
         
+        // Eric added to fix forKey is nil exception
+        if (!artistName)
+            artistName = @"Unknown Artist";
+        
         [self.artistsDictionary setObject:artistForName forKey:artistName];
         if(![self.artistsArray containsObject:artistName]) {
             [self.artistsArray addObject:artistName];
@@ -135,6 +139,10 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
+    // ERIC - this is the problem.
+    if (0 > section || section > 22) {
+        return [self.firstLetterArray objectAtIndex:22];
+    }
     return [self.firstLetterArray objectAtIndex:section];
 }
 
@@ -147,7 +155,6 @@
 {
     return [self.firstLetterArray indexOfObject:title];
 }
-
 
 #pragma mark - Navigation
 
