@@ -38,16 +38,17 @@
         
         MPMediaItem *song = [itemsFromGenericQuery objectAtIndex:i];
         NSString *artistName = [song valueForProperty:MPMediaItemPropertyArtist];
-        NSMutableArray *artistForName = [self.artistsDictionary objectForKey:artistName];
-        if(!artistForName)
-            artistForName = [NSMutableArray array];
-        [artistForName addObject:song];
         
         // Eric added to fix forKey is nil exception
         if (!artistName)
             artistName = @"Unknown Artist";
         
-        [self.artistsDictionary setObject:artistForName forKey:artistName];
+        NSMutableArray *songsForArtist = [self.artistsDictionary objectForKey:artistName];
+        if(!songsForArtist)
+            songsForArtist = [NSMutableArray array];
+        [songsForArtist addObject:song];
+        
+        [self.artistsDictionary setObject:songsForArtist forKey:artistName];
         if(![self.artistsArray containsObject:artistName]) {
             [self.artistsArray addObject:artistName];
             [self.artistsArray sortUsingSelector:@selector(compare:)];
@@ -55,14 +56,24 @@
         
     }
     
-    self.firstLetterArray = [[NSMutableArray alloc] init];
+    self.firstLetterDict = [NSMutableDictionary dictionary];
     for (int i=0; i<self.artistsArray.count; i++){
         NSString *artistNameFirstLetter = [[self.artistsArray objectAtIndex:i] substringToIndex:1];
-        if(![self.firstLetterArray containsObject:artistNameFirstLetter]) {
-            [self.firstLetterArray addObject:artistNameFirstLetter];
-            [self.firstLetterArray sortUsingSelector:@selector(compare:)];
+        if([self.firstLetterDict objectForKey:artistNameFirstLetter] == nil) {
+            NSMutableArray* artistsWithLetter = [NSMutableArray array];
+            [artistsWithLetter addObject:[self.artistsArray objectAtIndex:i]];
+            self.firstLetterDict[artistNameFirstLetter] = artistsWithLetter;
+        }
+        else {
+            NSMutableArray* artistsWithLetter = [self.firstLetterDict objectForKey:artistNameFirstLetter];
+            [artistsWithLetter addObject:[self.artistsArray objectAtIndex:i]];
+            [artistsWithLetter sortUsingSelector:@selector(compare:)];
+            [self.firstLetterDict setObject:artistsWithLetter forKey:artistNameFirstLetter];
         }
     }
+    
+    self.firstLetterArray = [[self.firstLetterDict allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+
     // Do any additional setup after loading the view.
 }
 
@@ -89,7 +100,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return self.artistsDictionary.count;
+    return self.firstLetterArray.count;
     //return 1;
 }
 
@@ -97,7 +108,9 @@
 {
     // Return the number of rows in the section.
     //return self.artistsArray.count;
-    return 1;
+    NSString *artistNameFirstLetter = [[self.artistsArray objectAtIndex:section] substringToIndex:1];
+    NSMutableArray* artistsWithLetter = [self.firstLetterDict objectForKey:artistNameFirstLetter];
+    return artistsWithLetter.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -106,12 +119,23 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
-    NSString *artistName = [self.artistsArray objectAtIndex:indexPath.section];
-    NSMutableArray *artistsForName = [self.artistsDictionary objectForKey:artistName];
+    NSString *firstLetterSection = [self.firstLetterArray objectAtIndex:indexPath.section];
+    NSArray *sectionArtists = [self.firstLetterDict objectForKey:firstLetterSection];
+    NSString *artistName;
+    
+    // Eric - Temporary fix for a bug - indexPath.row index is out of range of sectionArtists
+    if (indexPath.row >= sectionArtists.count){
+        artistName = [sectionArtists objectAtIndex:0];
+    }
+    else{
+        artistName = [sectionArtists objectAtIndex:indexPath.row];
+    }
+    //NSString *artistName = [self.artistsArray objectAtIndex:indexPath.section];
+    NSMutableArray *songsForArtist = [self.artistsDictionary objectForKey:artistName];
     //ArtistObj *artistObject = [artistsForLetter objectAtIndex:indexPath.row];
     
     cell.textLabel.text = artistName;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d SONGS",artistsForName.count];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d SONGS",songsForArtist.count];
     
     CGRect ellipseRect = CGRectMake(0, 0, 50, 50);
     
@@ -122,7 +146,7 @@
     CGContextClip(ctx);
     
     UIImage *artworkImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png",[[artistName substringToIndex:1] lowercaseString]]];
-    MPMediaItemArtwork *artwork = [[artistsForName objectAtIndex:0] valueForProperty: MPMediaItemPropertyArtwork];
+    MPMediaItemArtwork *artwork = [[songsForArtist objectAtIndex:0] valueForProperty: MPMediaItemPropertyArtwork];
     if (artwork) {
         //artworkImage = [artwork imageWithSize: CGSizeMake (50, 50)];
     }

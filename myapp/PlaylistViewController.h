@@ -15,7 +15,8 @@
 @property (nonatomic, strong) ArtistSongsTableViewController *songsTableViewcontroller;
 @property (nonatomic, strong) NSMutableDictionary *artistsDictionary;
 @property (nonatomic, strong) NSMutableArray *artistsArray;
-@property (nonatomic, strong) NSMutableArray *firstLetterArray;
+@property (nonatomic, strong) NSArray *firstLetterArray;
+@property (nonatomic, strong) NSMutableDictionary *firstLetterDict;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *lblSelected;
 
