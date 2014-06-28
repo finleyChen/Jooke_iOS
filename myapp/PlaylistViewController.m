@@ -43,12 +43,14 @@
         if (!artistName)
             artistName = @"Unknown Artist";
         
+        // Add the song to the array of songs for that artist.
         NSMutableArray *songsForArtist = [self.artistsDictionary objectForKey:artistName];
         if(!songsForArtist)
             songsForArtist = [NSMutableArray array];
         [songsForArtist addObject:song];
-        
         [self.artistsDictionary setObject:songsForArtist forKey:artistName];
+        
+        // Add the artist if needed.
         if(![self.artistsArray containsObject:artistName]) {
             [self.artistsArray addObject:artistName];
             [self.artistsArray sortUsingSelector:@selector(compare:)];
@@ -56,14 +58,19 @@
         
     }
     
+    // Keep track of the first letters of artists for section organization.
     self.firstLetterDict = [NSMutableDictionary dictionary];
     for (int i=0; i<self.artistsArray.count; i++){
         NSString *artistNameFirstLetter = [[self.artistsArray objectAtIndex:i] substringToIndex:1];
+        
+        // If we havent seen this first letter yet.
         if([self.firstLetterDict objectForKey:artistNameFirstLetter] == nil) {
             NSMutableArray* artistsWithLetter = [NSMutableArray array];
             [artistsWithLetter addObject:[self.artistsArray objectAtIndex:i]];
             self.firstLetterDict[artistNameFirstLetter] = artistsWithLetter;
         }
+        
+        // Else, add the artist to the array of artists with this first letter.
         else {
             NSMutableArray* artistsWithLetter = [self.firstLetterDict objectForKey:artistNameFirstLetter];
             [artistsWithLetter addObject:[self.artistsArray objectAtIndex:i]];
@@ -99,18 +106,16 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
+    // Return the number of sections. We are sorting by first letter.
     return self.firstLetterArray.count;
     //return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
+    // Return the number of rows in the section,
+    // which is the number of artists with this first letter.
     //return self.artistsArray.count;
-    //NSString *artistNameFirstLetter = [[self.artistsArray objectAtIndex:section] substringToIndex:1];
-    //NSMutableArray* artistsWithLetter = [self.firstLetterDict objectForKey:artistNameFirstLetter];
-    //return artistsWithLetter.count;
     NSString *firstLetterSection = [self.firstLetterArray objectAtIndex:section];
     NSArray *sectionArtists = [self.firstLetterDict objectForKey:firstLetterSection];
     return [sectionArtists count];
@@ -122,12 +127,14 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
+    // Get the artist name.
     NSString *firstLetterSection = [self.firstLetterArray objectAtIndex:indexPath.section];
     NSArray *sectionArtists = [self.firstLetterDict objectForKey:firstLetterSection];
     NSString *artistName = [sectionArtists objectAtIndex:indexPath.row];
-    //NSString *artistName = [self.artistsArray objectAtIndex:indexPath.section];
+    
     NSMutableArray *songsForArtist = [self.artistsDictionary objectForKey:artistName];
     //ArtistObj *artistObject = [artistsForLetter objectAtIndex:indexPath.row];
+    //NSString *artistName = [self.artistsArray objectAtIndex:indexPath.section];
     
     cell.textLabel.text = artistName;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%d SONGS",songsForArtist.count];
@@ -158,10 +165,6 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    // ERIC - this is the problem.
-    if (0 > section || section > 22) {
-        return [self.firstLetterArray objectAtIndex:22];
-    }
     return [self.firstLetterArray objectAtIndex:section];
 }
 
