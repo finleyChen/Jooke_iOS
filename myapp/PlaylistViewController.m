@@ -108,9 +108,12 @@
 {
     // Return the number of rows in the section.
     //return self.artistsArray.count;
-    NSString *artistNameFirstLetter = [[self.artistsArray objectAtIndex:section] substringToIndex:1];
-    NSMutableArray* artistsWithLetter = [self.firstLetterDict objectForKey:artistNameFirstLetter];
-    return artistsWithLetter.count;
+    //NSString *artistNameFirstLetter = [[self.artistsArray objectAtIndex:section] substringToIndex:1];
+    //NSMutableArray* artistsWithLetter = [self.firstLetterDict objectForKey:artistNameFirstLetter];
+    //return artistsWithLetter.count;
+    NSString *firstLetterSection = [self.firstLetterArray objectAtIndex:section];
+    NSArray *sectionArtists = [self.firstLetterDict objectForKey:firstLetterSection];
+    return [sectionArtists count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -121,15 +124,7 @@
     
     NSString *firstLetterSection = [self.firstLetterArray objectAtIndex:indexPath.section];
     NSArray *sectionArtists = [self.firstLetterDict objectForKey:firstLetterSection];
-    NSString *artistName;
-    
-    // Eric - Temporary fix for a bug - indexPath.row index is out of range of sectionArtists
-    if (indexPath.row >= sectionArtists.count){
-        artistName = [sectionArtists objectAtIndex:0];
-    }
-    else{
-        artistName = [sectionArtists objectAtIndex:indexPath.row];
-    }
+    NSString *artistName = [sectionArtists objectAtIndex:indexPath.row];
     //NSString *artistName = [self.artistsArray objectAtIndex:indexPath.section];
     NSMutableArray *songsForArtist = [self.artistsDictionary objectForKey:artistName];
     //ArtistObj *artistObject = [artistsForLetter objectAtIndex:indexPath.row];
