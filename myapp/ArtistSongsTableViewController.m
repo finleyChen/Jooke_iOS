@@ -56,7 +56,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return self.songsForAritst.count + 1;
+    return self.songsForArtist.count + 1;
     
 }
 
@@ -67,7 +67,7 @@
     if (indexPath.row == 0){
         cell= [tableView dequeueReusableCellWithIdentifier:@"artistCell" forIndexPath:indexPath];
         cell.textLabel.text = self.artistName;
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d SONGS",self.songsForAritst.count];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d SONGS",self.songsForArtist.count];
         
         CGRect ellipseRect = CGRectMake(0, 0, 50, 50);
         
@@ -84,7 +84,7 @@
         
         cell.imageView.image = img;
     }else{
-        MPMediaItem *song = [self.songsForAritst objectAtIndex:(indexPath.row-1)];
+        MPMediaItem *song = [self.songsForArtist objectAtIndex:(indexPath.row-1)];
         
         cell= [tableView dequeueReusableCellWithIdentifier:@"songsCell" forIndexPath:indexPath];
         cell.textLabel.text = [song valueForProperty:MPMediaItemPropertyTitle];
@@ -120,7 +120,7 @@
     // Toggle the "Tick" on and off
     if (indexPath.row > 0){
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        MPMediaItem *song = [self.songsForAritst objectAtIndex:(indexPath.row-1)];
+        MPMediaItem *song = [self.songsForArtist objectAtIndex:(indexPath.row-1)];
         //NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:[song valueForProperty:MPMediaItemPropertyTitle], @"title", [song valueForProperty:MPMediaItemPropertyArtist], @"artist", [song valueForProperty:MPMediaItemPropertyPlaybackDuration], @"duration", [song valueForProperty:MPMediaItemPropertyPersistentID], @"id", @"host", @"origin", nil];
     
         if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {

@@ -11,7 +11,7 @@
 
 @interface ArtistSongsTableViewController : UITableViewController
 
-@property (strong,nonatomic) NSMutableArray *songsForAritst;
+@property (strong,nonatomic) NSMutableArray *songsForArtist;
 @property (strong,nonatomic) NSString *artistName;
 @property (strong,nonatomic) UIImage *artistImg;
 @property (strong,nonatomic) NSMutableArray *playlist;

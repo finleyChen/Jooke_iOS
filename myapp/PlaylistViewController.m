@@ -186,8 +186,10 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     NSIndexPath *selectedIndexPath = [self. tableView indexPathForSelectedRow];
-    NSString *artistName = [self.artistsArray objectAtIndex:selectedIndexPath.section];
-    NSMutableArray *artistsForName = [self.artistsDictionary objectForKey:artistName];
+    NSString *firstLetterSection = [self.firstLetterArray objectAtIndex:selectedIndexPath.section];
+    NSArray *sectionArtists = [self.firstLetterDict objectForKey:firstLetterSection];
+    NSString *artistName = [sectionArtists objectAtIndex:selectedIndexPath.row];
+    NSMutableArray *songsForArtist = [self.artistsDictionary objectForKey:artistName];
     
     //UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:selectedIndexPath];
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:selectedIndexPath];
@@ -195,7 +197,7 @@
     self.songsTableViewcontroller = segue.destinationViewController;
     self.songsTableViewcontroller.artistName = artistName;
     self.songsTableViewcontroller.artistImg = [UIImage imageWithCGImage:cell.imageView.image.CGImage];
-    self.songsTableViewcontroller.songsForAritst = artistsForName;
+    self.songsTableViewcontroller.songsForArtist = songsForArtist;
 }
 
 
