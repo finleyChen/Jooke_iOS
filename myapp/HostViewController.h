@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnVote;
 @property (strong, nonatomic) NSMutableDictionary *eventDict;
 
+-(IBAction)back:(id)sender;
 -(IBAction)onCreatePlaylistclicked:(id)sender;
 -(IBAction)onSettingsclicked:(id)sender;
 -(IBAction)onCreateEventclicked:(id)sender;

@@ -45,11 +45,27 @@
     UIButton *aButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [aButton setImage:buttonImage forState:UIControlStateNormal];
     aButton.frame = CGRectMake(0.0, 0.0, 25, 25);
+    
     // Initialize the UIBarButtonItem
     UIBarButtonItem *aBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:aButton];
     // Set the Target and Action for aButton
     [aButton addTarget:self action:@selector(onSettingsclicked:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = aBarButtonItem;
+    
+    
+    // Initialize the UIButton
+    UIImage *backButtonImage = [UIImage imageNamed:@"bacl.png"];
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton setImage:backButtonImage forState:UIControlStateNormal];
+    backButton.frame = CGRectMake(0.0, 0.0, 25, 25);
+    
+
+    // Initialize the backButtonItem
+    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    // Set the Target and Action for aButton
+    [backButton addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = backButtonItem;
+    
     
     self.eventDict = [[NSMutableDictionary alloc] init];
     //create playlist and save to userdefaults
@@ -57,6 +73,10 @@
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:playlist];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"playlist"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+-(IBAction)back:(UIBarButtonItem *)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning

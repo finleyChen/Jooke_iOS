@@ -16,4 +16,6 @@
 @property (strong,nonatomic) UIImage *artistImg;
 @property (strong,nonatomic) NSMutableArray *playlist;
 
+- (IBAction)back:(id)sender;
+
 @end

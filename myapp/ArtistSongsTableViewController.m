@@ -37,6 +37,24 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    // Do any additional setup after loading the view.
+    
+    // Initialize the UIButton
+    UIImage *backButtonImage = [UIImage imageNamed:@"bacl.png"];
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton setImage:backButtonImage forState:UIControlStateNormal];
+    backButton.frame = CGRectMake(0.0, 0.0, 25, 25);
+    
+    
+    // Initialize the backButtonItem
+    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    // Set the Target and Action for aButton
+    [backButton addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = backButtonItem;
+}
+
+-(IBAction)back:(UIBarButtonItem *)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning

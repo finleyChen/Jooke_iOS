@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *lblSelected;
 
+- (IBAction)back:(id)sender;
 - (IBAction)onDoneclicked:(id)sender;
 
 @end
