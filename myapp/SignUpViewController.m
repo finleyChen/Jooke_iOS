@@ -68,11 +68,21 @@
     {
         self.toolbar.hidden = FALSE;
     }
+    else {
+        self.toolbar.hidden = TRUE;
+    }
     return YES;
 }
 
 // Close the keyboard if user clicks outside the keyboard.
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    if(![self.txtName.text isEqualToString:@""] && ![self.txtEmail.text isEqualToString:@""] && ![self.txtPassword.text isEqualToString:@""])
+    {
+        self.toolbar.hidden = FALSE;
+    }
+    else {
+        self.toolbar.hidden = TRUE;
+    }
     [self.view endEditing:YES];
     [super touchesBegan:touches withEvent:event];
 }

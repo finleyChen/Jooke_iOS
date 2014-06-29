@@ -39,7 +39,7 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     // Do any additional setup after loading the view.
     
-    // Initialize the UIButton
+    // Initialize the backButton
     UIImage *backButtonImage = [UIImage imageNamed:@"bacl.png"];
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [backButton setImage:backButtonImage forState:UIControlStateNormal];
@@ -48,7 +48,7 @@
     
     // Initialize the backButtonItem
     UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    // Set the Target and Action for aButton
+    // Set the Target and Action for backButton
     [backButton addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = backButtonItem;
 }
