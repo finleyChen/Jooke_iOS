@@ -48,7 +48,7 @@
 	[label sizeToFit];
     navigItem.titleView = label;
     myNav.items = [NSArray arrayWithObjects: navigItem,nil];
-	[myNav.topItem setTitleView:label];
+	//[myNav.topItem setTitleView:label];
     
 
 }

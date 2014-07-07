@@ -165,7 +165,7 @@
         
     }
     
-    NSURL *url = [NSURL URLWithString:@"http://jookee-env.elasticbeanstalk.com/signup"];
+    NSURL *url = [NSURL URLWithString:@"http://jooketest-env.elasticbeanstalk.com/signup"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
     
     [request setHTTPMethod:@"POST"];
