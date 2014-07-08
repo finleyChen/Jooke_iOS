@@ -39,12 +39,34 @@
         
         self.lblPArtist.text = [[playlist objectAtIndex:0] valueForProperty:MPMediaItemPropertyArtist];
         self.lblPSongName.text = [[playlist objectAtIndex:0] valueForProperty:MPMediaItemPropertyTitle];
+        
+        // Put the album artwork in a circle.
+        CGRect ellipseRect = CGRectMake(0, 0, 50, 50);
+        
+        UIGraphicsBeginImageContextWithOptions(ellipseRect.size, NO, 0.0f);
+        CGContextRef ctx = UIGraphicsGetCurrentContext();
+        
+        CGContextAddEllipseInRect(ctx, CGRectMake(0, 0, ellipseRect.size.width, ellipseRect.size.height));
+        CGContextClip(ctx);
+        
+        // First set the generic letter for the artist.
         UIImage *artworkImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png",[[self.lblPArtist.text substringToIndex:1] lowercaseString]]];
+        [artworkImage drawInRect:ellipseRect];
+
+        UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+        self.imagePlaying.image = img;
+        
+        // Check if the song has specific artwork.
         MPMediaItemArtwork *artwork = [[playlist objectAtIndex:0] valueForProperty: MPMediaItemPropertyArtwork];
-        if (artwork) {
-            //artworkImage = [artwork imageWithSize: CGSizeMake (50, 50)];
+        img = [artwork imageWithSize: CGSizeMake (50, 50)];
+
+        // If the song has specific artwork, use it.
+        if (img) {
+            [img drawInRect:ellipseRect];
+            UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+            self.imagePlaying.image = img;
         }
-        self.imagePlaying.image = artworkImage;
+        UIGraphicsEndImageContext();
         
         /*int duration = [[[playlist objectAtIndex:0] valueForProperty:MPMediaItemPropertyPlaybackDuration] intValue];
         for (int i=duration; i>=0; i--){
@@ -166,13 +188,51 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 0;
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"playlist"];
+    NSMutableArray *playlist = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    return playlist.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"playlist"];
+    NSMutableArray *playlist = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     
+    NSString* artistName = [[playlist objectAtIndex:indexPath.row] valueForProperty:MPMediaItemPropertyArtist];
+    cell.textLabel.text = artistName;
+
+    NSString* songName = [[playlist objectAtIndex:indexPath.row] valueForProperty:MPMediaItemPropertyTitle];
+    //cell.detailTextLabel.numberOfLines = 1;
+    cell.detailTextLabel.text = songName;
+    
+    CGRect ellipseRect = CGRectMake(0, 0, 40, 40);
+    
+    UIGraphicsBeginImageContextWithOptions(ellipseRect.size, NO, 0.0f);
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    
+    CGContextAddEllipseInRect(ctx, CGRectMake(0, 0, ellipseRect.size.width, ellipseRect.size.height));
+    CGContextClip(ctx);
+    
+    // First set a the generic letter for the artist.
+    UIImage *artworkImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png",[[artistName substringToIndex:1] lowercaseString]]];
+    [artworkImage drawInRect:ellipseRect];
+    UIImage* img = UIGraphicsGetImageFromCurrentImageContext();
+    cell.imageView.image = img;
+    
+    // Check if the song has specific artwork.
+    MPMediaItemArtwork *artwork = [[playlist objectAtIndex:indexPath.row] valueForProperty: MPMediaItemPropertyArtwork];
+    img = [artwork imageWithSize: CGSizeMake (40, 40)];
+    
+    // If the song has specific artwork, use it.
+    if (img) {
+        [img drawInRect:ellipseRect];
+        img = UIGraphicsGetImageFromCurrentImageContext();
+        cell.imageView.image = img;
+    }
+    UIGraphicsEndImageContext();
+
+    /*
     SongObj *songObject = [self.songsDictionary objectForKey:[NSString stringWithFormat:@"%d",indexPath.row + 1]];
     
     cell.textLabel.text = songObject.artist;
@@ -205,7 +265,7 @@
     
     cell.imageView.image = img;
     // Configure the cell...
-    
+    */
     return cell;
 }
 

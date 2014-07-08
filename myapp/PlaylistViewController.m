@@ -164,16 +164,29 @@
     CGContextClip(ctx);
     
     UIImage *artworkImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png",[[artistName substringToIndex:1] lowercaseString]]];
-    MPMediaItemArtwork *artwork = [[songsForArtist objectAtIndex:0] valueForProperty: MPMediaItemPropertyArtwork];
-    if (artwork) {
-        //artworkImage = [artwork imageWithSize: CGSizeMake (50, 50)];
-    }
     [artworkImage drawInRect:ellipseRect];
     
     UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
     
     cell.imageView.image = img;
+    
+    MPMediaItemArtwork *artwork;
+    artwork = [[songsForArtist objectAtIndex:0] valueForProperty: MPMediaItemPropertyArtwork];
+
+    img = [artwork imageWithSize: CGSizeMake (50, 50)];
+    int i = 1;
+    while (i < songsForArtist.count && !img ) {
+        artwork = [[songsForArtist objectAtIndex:i] valueForProperty: MPMediaItemPropertyArtwork];
+        i++;
+        img = [artwork imageWithSize: CGSizeMake (50, 50)];
+    }
+    // Configure the cell...
+    if (img) {
+        [img drawInRect:ellipseRect];
+        img = UIGraphicsGetImageFromCurrentImageContext();
+        cell.imageView.image = img;
+    }
+    UIGraphicsEndImageContext();
     // Configure the cell...
     
     return cell;
