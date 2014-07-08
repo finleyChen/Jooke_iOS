@@ -155,6 +155,7 @@
     cell.textLabel.text = artistName;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%d SONGS",songsForArtist.count];
     
+    // Put the artwork in a circle.
     CGRect ellipseRect = CGRectMake(0, 0, 50, 50);
     
     UIGraphicsBeginImageContextWithOptions(ellipseRect.size, NO, 0.0f);
@@ -163,6 +164,7 @@
     CGContextAddEllipseInRect(ctx, CGRectMake(0, 0, ellipseRect.size.width, ellipseRect.size.height));
     CGContextClip(ctx);
     
+    // First set the artwork as a generic letter for the artist.
     UIImage *artworkImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png",[[artistName substringToIndex:1] lowercaseString]]];
     [artworkImage drawInRect:ellipseRect];
     
@@ -170,17 +172,19 @@
     
     cell.imageView.image = img;
     
+    // Look for specific artwork for any of the artist's songs.
     MPMediaItemArtwork *artwork;
     artwork = [[songsForArtist objectAtIndex:0] valueForProperty: MPMediaItemPropertyArtwork];
-
     img = [artwork imageWithSize: CGSizeMake (50, 50)];
+    
+    // Loop through all the artists songs.
     int i = 1;
     while (i < songsForArtist.count && !img ) {
         artwork = [[songsForArtist objectAtIndex:i] valueForProperty: MPMediaItemPropertyArtwork];
         i++;
         img = [artwork imageWithSize: CGSizeMake (50, 50)];
     }
-    // Configure the cell...
+    // If the artist has specific artwork, use it.
     if (img) {
         [img drawInRect:ellipseRect];
         img = UIGraphicsGetImageFromCurrentImageContext();
