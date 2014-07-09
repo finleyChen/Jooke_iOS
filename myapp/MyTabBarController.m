@@ -29,14 +29,15 @@
     
     //set the tab bar title appearance for normal state
     [[UITabBarItem appearance]
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:224.0f/255.0f green:82.0f/255.0f blue:81.0f/255.0f alpha:1.0f], NSFontAttributeName:[UIFont fontWithName:@"GillSans-Light" size: 18.0]}
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:224.0f/255.0f green:182.0f/255.0f blue:181.0f/255.0f alpha:1.0f], NSFontAttributeName:[UIFont fontWithName:@"GillSans-Light" size: 18.0]}
      forState:UIControlStateNormal];
     
     //set the tab bar title appearance for selected state
     [[UITabBarItem appearance]
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:124.0f/255.0f green:82.0f/255.0f blue:81.0f/255.0f alpha:1.0f], NSFontAttributeName:[UIFont fontWithName:@"GillSans-Bold" size: 18.0]}
-     forState:UIControlStateHighlighted];
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:224.0f/255.0f green:82.0f/255.0f blue:81.0f/255.0f alpha:1.0f], NSFontAttributeName:[UIFont fontWithName:@"GillSans-Bold" size: 28.0]}
+     forState:UIControlStateSelected];
     // Do any additional setup after loading the view.
+    
 }
 
 - (void)didReceiveMemoryWarning

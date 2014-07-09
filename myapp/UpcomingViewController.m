@@ -29,8 +29,8 @@
     [super viewDidLoad];
     self.eventInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"Event"];
     self.lblTitle.text = [self.eventInfo objectForKey:@"name"];
-    self.userType = [self.eventInfo objectForKey:@"userType"];
     
+    self.userType = [self.eventInfo objectForKey:@"userType"];
     if ([self.userType isEqualToString:@"host"]){
         NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"playlist"];
         NSMutableArray *playlist = [NSKeyedUnarchiver unarchiveObjectWithData:data];
@@ -94,6 +94,49 @@
     
     // Do any additional setup after loading the view.
 }
+
+-(void) viewWillAppear:(BOOL)animated {
+    
+    UINavigationBar *myNav = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height, [UIApplication sharedApplication].statusBarFrame.size.width, 40)];
+    [self.view addSubview:myNav];
+    
+    [myNav setBackgroundImage:[UIImage new]forBarMetrics:UIBarMetricsDefault];
+    myNav.shadowImage = [UIImage new];
+    myNav.translucent = YES;
+    
+    // Initialize the backButton
+    UIImage *backButtonImage = [UIImage imageNamed:@"bacl.png"];
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton setImage:backButtonImage forState:UIControlStateNormal];
+    backButton.frame = CGRectMake(0.0, 0.0, 25, 25);
+    
+    
+    // Initialize the backButtonItem
+    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    // Set the Target and Action for backButton
+    [backButton addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UINavigationItem *navigItem = [UINavigationItem alloc];
+    
+    
+    navigItem.leftBarButtonItem = backButtonItem;
+    myNav.items = [NSArray arrayWithObjects: navigItem,nil];
+    
+    /* IF YOU WANT JOOKE TITLE AT TOP
+     UILabel *label = [[UILabel alloc] init];
+     label.font = [UIFont fontWithName:@"Roboto-Thin" size: 25.0];
+     //[label setBackgroundColor:[UIColor clearColor]];
+     [label setTextColor:[UIColor colorWithRed:224.0f/255.0f green:82.0f/255.0f blue:81.0f/255.0f alpha:1.0f]];
+     [label setText:@"jooke"];
+     [label sizeToFit];
+     [myNav.topItem setTitleView:label];
+     */
+}
+
+-(IBAction)back:(UIBarButtonItem *)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
